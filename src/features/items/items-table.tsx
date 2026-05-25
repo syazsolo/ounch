@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { Table } from "@heroui/react";
 import type { Item } from "@/db/schema";
-import { getItemPageHref, getPageRange, getVisiblePages } from "./pagination";
+import { ItemsPagination } from "./items-pagination";
+import { getPageRange } from "./pagination";
 
 type ItemsTableProps = {
   currentPage: number;
@@ -10,99 +10,6 @@ type ItemsTableProps = {
   pageSize: number;
   totalItems: number;
 };
-
-function PaginationControls({
-  currentPage,
-  pageCount,
-}: {
-  currentPage: number;
-  pageCount: number;
-}) {
-  const visiblePages = getVisiblePages(currentPage, pageCount);
-  const previousPage = Math.max(currentPage - 1, 1);
-  const nextPage = Math.min(currentPage + 1, pageCount);
-
-  return (
-    <nav
-      aria-label="Items pagination"
-      className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
-    >
-      <p className="text-sm text-slate-500">
-        Page <span className="font-medium text-slate-700">{currentPage}</span>{" "}
-        of <span className="font-medium text-slate-700">{pageCount}</span>
-      </p>
-      <div className="flex flex-wrap items-center gap-2">
-        <PaginationLink
-          href={getItemPageHref(previousPage)}
-          isDisabled={currentPage === 1}
-        >
-          Previous
-        </PaginationLink>
-        {visiblePages.map((page, index) => {
-          const previousVisiblePage = visiblePages[index - 1];
-          const hasGap =
-            previousVisiblePage !== undefined && page - previousVisiblePage > 1;
-
-          return (
-            <span className="flex items-center gap-2" key={page}>
-              {hasGap ? (
-                <span className="inline-flex size-9 items-center justify-center text-sm text-slate-400">
-                  ...
-                </span>
-              ) : null}
-              <PaginationLink
-                href={getItemPageHref(page)}
-                isCurrent={page === currentPage}
-              >
-                {page}
-              </PaginationLink>
-            </span>
-          );
-        })}
-        <PaginationLink
-          href={getItemPageHref(nextPage)}
-          isDisabled={currentPage === pageCount}
-        >
-          Next
-        </PaginationLink>
-      </div>
-    </nav>
-  );
-}
-
-function PaginationLink({
-  children,
-  href,
-  isCurrent = false,
-  isDisabled = false,
-}: {
-  children: React.ReactNode;
-  href: string;
-  isCurrent?: boolean;
-  isDisabled?: boolean;
-}) {
-  const isNumeric = typeof children === "number";
-
-  return (
-    <Link
-      aria-current={isCurrent ? "page" : undefined}
-      aria-disabled={isDisabled}
-      className={`inline-flex items-center justify-center rounded-md border text-sm transition ${
-        isNumeric ? "size-9 font-semibold" : "h-9 px-3 font-medium"
-      } ${
-        isDisabled
-          ? "pointer-events-none border-slate-200 text-slate-300"
-          : isCurrent
-            ? "border-teal-600 bg-teal-600 text-white shadow-sm shadow-teal-900/10"
-            : "border-slate-200 text-slate-700 hover:border-teal-300 hover:text-teal-700"
-      }`}
-      href={href}
-      prefetch={false}
-    >
-      {children}
-    </Link>
-  );
-}
 
 export function ItemsTable({
   currentPage,
@@ -161,12 +68,12 @@ export function ItemsTable({
             </Table.Body>
           </Table.Content>
         </Table.ScrollContainer>
-        <Table.Footer className="border-t border-slate-200 p-4">
-          <div className="flex flex-col gap-3">
+        <Table.Footer className="border-t border-slate-200 p-3 sm:p-4">
+          <div className="flex flex-col gap-2 sm:gap-3">
             <p className="text-sm text-slate-500">
               Showing {firstItem}-{lastItem} of {totalItems}
             </p>
-            <PaginationControls
+            <ItemsPagination
               currentPage={currentPage}
               pageCount={pageCount}
             />

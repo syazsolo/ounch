@@ -39,6 +39,8 @@ npm run db:seed
 
 The seed script uses `@faker-js/faker` to top the table up to 250 deterministic sample rows. Pagination displays 10 rows per page.
 
+Note: Pagination is URL-driven with `?page=` and uses a compact mobile layout.
+
 Run the app:
 
 ```bash
