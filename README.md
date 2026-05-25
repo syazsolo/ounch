@@ -2,7 +2,7 @@
 
 Interview test app built with Next.js, MySQL, Tailwind CSS, and NextUI/HeroUI.
 
-The app server-renders item data from a MySQL `items` table and includes basic error handling plus pagination.
+The app server-renders item data from a MySQL `items` table and includes basic error handling plus URL-driven pagination.
 
 ## Setup
 
@@ -37,6 +37,8 @@ npm run db:push
 npm run db:seed
 ```
 
+The seed script uses `@faker-js/faker` to top the table up to 250 deterministic sample rows. Pagination displays 10 rows per page.
+
 Run the app:
 
 ```bash
@@ -52,7 +54,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - `npm run start` - run production build
 - `npm run lint` - run ESLint
 - `npm run db:push` - create/update database table
-- `npm run db:seed` - insert sample items
+- `npm run db:seed` - insert sample items up to 250 rows
 
 ## Database
 
@@ -70,4 +72,4 @@ Main files:
 
 - `src/app/page.tsx` - server-rendered items page
 - `src/db/schema.ts` - database schema
-- `scripts/seed-items.ts` - sample data
+- `scripts/seed-items.ts` - deterministic Faker sample data
