@@ -8,11 +8,9 @@ type SearchParams = Promise<{
 
 function ErrorState({ message }: { message: string }) {
   return (
-    <main className="min-h-screen bg-[#f7f8fb] p-4 text-slate-900 sm:p-6">
-      <div className="rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-700 shadow-sm">
-        {message}
-      </div>
-    </main>
+    <div className="rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-700 shadow-sm">
+      {message}
+    </div>
   );
 }
 
@@ -24,13 +22,13 @@ export default async function Home({
   const requestedPage = parsePageParam((await searchParams).page);
   const result = await getItemsPage(requestedPage);
 
-  if (!result.ok) {
-    return <ErrorState message={result.error} />;
-  }
-
   return (
-    <main className="min-h-screen bg-[#f7f8fb] p-4 text-slate-900 sm:p-6">
-      <ItemsTable {...result.data} />
+    <main className="min-h-dvh p-4 sm:p-6">
+      {result.ok ? (
+        <ItemsTable {...result.data} />
+      ) : (
+        <ErrorState message={result.error} />
+      )}
     </main>
   );
 }
