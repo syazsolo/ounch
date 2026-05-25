@@ -1,13 +1,13 @@
 export const ITEMS_PAGE_SIZE = 10;
 
-export function parsePageParam(value: string | string[] | undefined) {
+export function parsePage(value: string | string[] | undefined) {
   const rawValue = Array.isArray(value) ? value[0] : value;
   const page = Number.parseInt(rawValue ?? "1", 10);
 
   return Number.isFinite(page) && page > 0 ? page : 1;
 }
 
-export function getItemPageHref(page: number) {
+export function getPageHref(page: number) {
   return page <= 1 ? "/" : `/?page=${page}`;
 }
 

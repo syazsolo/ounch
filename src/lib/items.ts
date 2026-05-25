@@ -1,7 +1,7 @@
 import { asc, count } from "drizzle-orm";
 import { formatDbError } from "@/db/errors";
 import { items, type Item } from "@/db/schema";
-import { ITEMS_PAGE_SIZE } from "./pagination";
+import { ITEMS_PAGE_SIZE } from "@/lib/pagination";
 
 export type ItemsPage =
   | {
@@ -19,7 +19,7 @@ export type ItemsPage =
       error: string;
     };
 
-export async function getItemsPage(page: number): Promise<ItemsPage> {
+export async function listItems(page: number): Promise<ItemsPage> {
   try {
     const { db } = await import("@/db");
     const totalRows = await db.select({ value: count() }).from(items);

@@ -1,6 +1,6 @@
-import { ItemsTable } from "@/features/items/items-table";
-import { getItemsPage } from "@/features/items/items.queries";
-import { parsePageParam } from "@/features/items/pagination";
+import { ItemsTable } from "@/components/items/table";
+import { listItems } from "@/lib/items";
+import { parsePage } from "@/lib/pagination";
 
 type SearchParams = Promise<{
   page?: string | string[];
@@ -19,15 +19,15 @@ export default async function Home({
 }: {
   searchParams: SearchParams;
 }) {
-  const requestedPage = parsePageParam((await searchParams).page);
-  const result = await getItemsPage(requestedPage);
+  const page = parsePage((await searchParams).page);
+  const itemsPage = await listItems(page);
 
   return (
     <main className="min-h-dvh p-4 sm:p-6">
-      {result.ok ? (
-        <ItemsTable {...result.data} />
+      {itemsPage.ok ? (
+        <ItemsTable {...itemsPage.data} />
       ) : (
-        <ErrorState message={result.error} />
+        <ErrorState message={itemsPage.error} />
       )}
     </main>
   );
