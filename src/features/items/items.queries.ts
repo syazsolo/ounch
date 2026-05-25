@@ -1,6 +1,6 @@
 import { asc, count } from "drizzle-orm";
+import { formatDbError } from "@/db/errors";
 import { items, type Item } from "@/db/schema";
-import { getDatabaseErrorMessage } from "./database-errors";
 import { ITEMS_PAGE_SIZE } from "./pagination";
 
 export type ItemsPage =
@@ -50,7 +50,7 @@ export async function getItemsPage(page: number): Promise<ItemsPage> {
 
     return {
       ok: false,
-      error: getDatabaseErrorMessage(error),
+      error: formatDbError(error),
     };
   }
 }

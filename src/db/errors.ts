@@ -4,7 +4,7 @@ type DatabaseError = Error & {
   sqlState?: string;
 };
 
-export function getDatabaseErrorMessage(error: unknown) {
+export function formatDbError(error: unknown) {
   const dbError = error as DatabaseError;
 
   if (dbError.message?.includes("DATABASE_URL")) {
@@ -20,12 +20,12 @@ export function getDatabaseErrorMessage(error: unknown) {
   }
 
   if (dbError.code === "ER_BAD_DB_ERROR") {
-    return "The configured MySQL database does not exist. Confirm DATABASE_URL points to sample_db.";
+    return "The configured MySQL database does not exist. Confirm DATABASE_URL points to the expected database.";
   }
 
   if (dbError.code === "ER_NO_SUCH_TABLE") {
-    return "The items table does not exist yet. Run npm run db:push, then npm run db:seed.";
+    return "A required database table does not exist yet. Run npm run db:push, then npm run db:seed.";
   }
 
-  return "Unable to fetch items from MySQL. Check the server logs for the full database error.";
+  return "Unable to complete the database request. Check the server logs for the full database error.";
 }
