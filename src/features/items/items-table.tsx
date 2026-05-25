@@ -33,9 +33,11 @@ export function ItemsTable({
             className="min-w-170"
           >
             <Table.Header>
-              <Table.Column isRowHeader>ID</Table.Column>
+              <Table.Column className="rounded-none!" isRowHeader>
+                ID
+              </Table.Column>
               <Table.Column>Name</Table.Column>
-              <Table.Column>Description</Table.Column>
+              <Table.Column className="rounded-none!">Description</Table.Column>
             </Table.Header>
             <Table.Body>
               {items.length > 0 ? (
