@@ -2,6 +2,19 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a local environment file with your MySQL connection string:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Update `DATABASE_URL` so it points to your `sample_db` database, then create the table and seed sample rows with Drizzle:
+
+```bash
+npm run db:push
+npm run db:seed
+```
+
 First, run the development server:
 
 ```bash
