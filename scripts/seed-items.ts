@@ -1,9 +1,12 @@
 import { loadEnvConfig } from "@next/env";
+import { faker } from "@faker-js/faker";
 import { count } from "drizzle-orm";
 
 loadEnvConfig(process.cwd());
 
-const sampleItems = [
+const TARGET_ITEM_COUNT = 250;
+
+const curatedItems = [
   {
     name: "Aurora Desk Lamp",
     description:
@@ -31,21 +34,84 @@ const sampleItems = [
   },
 ];
 
+const productAdjectives = [
+  "Compact",
+  "Modular",
+  "Ergonomic",
+  "Portable",
+  "Refined",
+  "Durable",
+  "Minimal",
+  "Wireless",
+  "Adjustable",
+  "Precision",
+];
+
+const productTypes = [
+  "Desk Organizer",
+  "Task Lamp",
+  "Travel Pouch",
+  "Notebook Set",
+  "Cable Dock",
+  "Monitor Shelf",
+  "Storage Tray",
+  "Charging Stand",
+  "Coffee Kit",
+  "Workspace Mat",
+];
+
+function buildGeneratedItems(count: number) {
+  faker.seed(20260525);
+
+  return Array.from({ length: count }, (_, index) => {
+    const adjective = faker.helpers.arrayElement(productAdjectives);
+    const productType = faker.helpers.arrayElement(productTypes);
+    const material = faker.commerce.productMaterial();
+    const color = faker.color.human();
+    const feature = faker.helpers.arrayElement([
+      "daily desk work",
+      "hybrid meetings",
+      "organized travel",
+      "focused writing sessions",
+      "small team studios",
+      "home office setups",
+      "creative planning",
+      "clean cable management",
+    ]);
+
+    return {
+      name: `${adjective} ${productType} ${index + 1}`,
+      description: `A ${color} ${material.toLowerCase()} ${productType.toLowerCase()} designed for ${feature}.`,
+    };
+  });
+}
+
 async function main() {
-  const [{ db }, { items }] = await Promise.all([
+  const [{ db, pool }, { items }] = await Promise.all([
     import("../src/db"),
     import("../src/db/schema"),
   ]);
 
-  const [{ value }] = await db.select({ value: count() }).from(items);
+  try {
+    const [{ value }] = await db.select({ value: count() }).from(items);
 
-  if (value > 0) {
-    console.log(`Seed skipped: items table already contains ${value} row(s).`);
-    return;
+    if (value >= TARGET_ITEM_COUNT) {
+      console.log(
+        `Seed skipped: items table already contains ${value} row(s). Target is ${TARGET_ITEM_COUNT}.`,
+      );
+      return;
+    }
+
+    const catalog = [...curatedItems, ...buildGeneratedItems(TARGET_ITEM_COUNT)];
+    const seedItems = catalog.slice(value, TARGET_ITEM_COUNT);
+
+    await db.insert(items).values(seedItems);
+    console.log(
+      `Seeded ${seedItems.length} item rows. Table now targets ${TARGET_ITEM_COUNT} rows.`,
+    );
+  } finally {
+    await pool.end();
   }
-
-  await db.insert(items).values(sampleItems);
-  console.log(`Seeded ${sampleItems.length} item rows.`);
 }
 
 main().catch((error) => {
