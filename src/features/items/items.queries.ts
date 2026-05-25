@@ -1,5 +1,4 @@
 import { asc, count } from "drizzle-orm";
-import { db } from "@/db";
 import { items, type Item } from "@/db/schema";
 import { getDatabaseErrorMessage } from "./database-errors";
 import { ITEMS_PAGE_SIZE } from "./pagination";
@@ -22,6 +21,7 @@ export type ItemsPage =
 
 export async function getItemsPage(page: number): Promise<ItemsPage> {
   try {
+    const { db } = await import("@/db");
     const totalRows = await db.select({ value: count() }).from(items);
 
     const totalItems = Number(totalRows[0]?.value ?? 0);
