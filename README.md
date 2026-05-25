@@ -37,7 +37,13 @@ npm run db:push
 npm run db:seed
 ```
 
-The seed script uses `@faker-js/faker` to top the table up to 250 deterministic sample rows. Pagination displays 10 rows per page.
+The seed script uses Faker to top the table up to 250 simple demo rows. Pagination displays 10 rows per page.
+
+To reset the database tables and seed fresh demo data:
+
+```bash
+npm run db:fresh
+```
 
 Note: Pagination is URL-driven with `?page=` and uses a compact mobile layout.
 
@@ -55,6 +61,7 @@ Open [http://localhost:3000](http://localhost:3000).
 - `npm run build` - build for production
 - `npm run start` - run production build
 - `npm run lint` - run ESLint
+- `npm run db:fresh` - drop database tables, push the schema, and seed demo data
 - `npm run db:push` - create/update database table
 - `npm run db:seed` - insert sample items up to 250 rows
 
@@ -74,4 +81,4 @@ Main files:
 
 - `src/app/page.tsx` - server-rendered items page
 - `src/db/schema.ts` - database schema
-- `scripts/seed-items.ts` - deterministic Faker sample data
+- `scripts/seed-items.ts` - simple Faker demo item data
