@@ -1,11 +1,27 @@
-type DatabaseError = Error & {
+type DatabaseError = {
+  cause?: unknown;
   code?: string;
-  errno?: number;
-  sqlState?: string;
+  message?: string;
 };
 
+function getDatabaseError(error: unknown): DatabaseError {
+  let current = error;
+
+  while (current && typeof current === "object" && "cause" in current) {
+    const cause = (current as DatabaseError).cause;
+
+    if (!cause) {
+      break;
+    }
+
+    current = cause;
+  }
+
+  return current as DatabaseError;
+}
+
 export function formatDbError(error: unknown) {
-  const dbError = error as DatabaseError;
+  const dbError = getDatabaseError(error);
 
   if (dbError.message?.includes("DATABASE_URL")) {
     return "Database connection is not configured. Add DATABASE_URL to .env.local.";
