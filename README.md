@@ -1,8 +1,23 @@
 # Ounch Items
 
-Interview test app built with Next.js, MySQL, Tailwind CSS, and NextUI/HeroUI.
+Interview assessment app built with Next.js, MySQL, Tailwind CSS, and NextUI/HeroUI.
 
-The app server-renders item data from a MySQL `items` table and includes basic error handling plus URL-driven pagination.
+The application server-renders rows from a MySQL `items` table, handles database errors gracefully, and includes URL-driven pagination.
+
+## Screenshots
+
+![Desktop items table](docs/desktop-page-1.png)
+
+![Mobile pagination](docs/mobile-pagination.png)
+
+## Tech Stack
+
+- Next.js 16 with the App Router
+- React 19
+- MySQL with `mysql2`
+- Drizzle ORM for schema management and queries
+- Tailwind CSS 4
+- NextUI/HeroUI components
 
 ## Setup
 
@@ -12,42 +27,37 @@ Install dependencies:
 npm install
 ```
 
-Create `.env.local`:
+Create `.env.local` from the example file:
 
 ```powershell
 Copy-Item .env.local.example .env.local
 ```
 
-Set your database URL:
+Update the database connection string:
 
 ```env
 DATABASE_URL="mysql://root:password@localhost:3306/sample_db"
 ```
 
-Create the database:
+Create the MySQL database:
 
 ```sql
 CREATE DATABASE IF NOT EXISTS sample_db;
 ```
 
-Create and seed the table:
+Create the `items` table from the Drizzle schema:
 
 ```bash
 npm run db:push
+```
+
+Seed the table with sample data:
+
+```bash
 npm run db:seed
 ```
 
-The seed script uses Faker to top the table up to 250 simple demo rows. Pagination displays 10 rows per page.
-
-To reset the database tables and seed fresh demo data:
-
-```bash
-npm run db:fresh
-```
-
-Note: Pagination is URL-driven with `?page=` and uses a compact mobile layout.
-
-Run the app:
+Run the development server:
 
 ```bash
 npm run dev
@@ -55,19 +65,9 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Scripts
-
-- `npm run dev` - start development server
-- `npm run build` - build for production
-- `npm run start` - run production build
-- `npm run lint` - run ESLint
-- `npm run db:fresh` - drop database tables, push the schema, and seed demo data
-- `npm run db:push` - create/update database table
-- `npm run db:seed` - insert sample items up to 250 rows
-
 ## Database
 
-The app expects:
+The app creates and reads from this table:
 
 ```sql
 CREATE TABLE items (
@@ -77,8 +77,23 @@ CREATE TABLE items (
 );
 ```
 
-Main files:
+The seed script fills the table up to 250 demo rows. Pagination displays 10 items per page.
+
+## Scripts
+
+- `npm run dev` - start the development server
+- `npm run build` - build for production
+- `npm run start` - run the production build
+- `npm run lint` - run ESLint
+- `npm run db:push` - create or update the database table from the Drizzle schema
+- `npm run db:seed` - insert sample item data up to 250 rows
+- `npm run db:fresh` - drop existing tables, push the schema, and seed fresh data
+
+## Main Files
 
 - `src/app/page.tsx` - server-rendered items page
-- `src/db/schema.ts` - database schema
-- `scripts/seed-items.ts` - simple Faker demo item data
+- `src/lib/items.ts` - database fetching, pagination data, and error handling
+- `src/components/items/table.tsx` - item table UI
+- `src/components/table.tsx` - reusable table and pagination UI
+- `src/db/schema.ts` - Drizzle schema for the `items` table
+- `scripts/seed-items.ts` - sample data seeding script

@@ -8,7 +8,7 @@ type SearchParams = Promise<{
 
 function ErrorState({ message }: { message: string }) {
   return (
-    <div className="rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-700 shadow-sm">
+    <div className="mx-auto w-full max-w-6xl rounded-lg border border-rose-200 bg-white p-4 text-sm text-rose-700 shadow-sm">
       {message}
     </div>
   );
@@ -24,6 +24,14 @@ export default async function Home({
 
   return (
     <main className="min-h-dvh p-4 sm:p-6">
+      <header className="mx-auto mb-4 flex w-full max-w-6xl items-end justify-between gap-3">
+        <h1 className="text-2xl font-semibold text-slate-950">Ounch Assessment</h1>
+        {itemsPage.ok ? (
+          <p className="text-sm text-slate-500">
+            {itemsPage.data.totalItems.toLocaleString()} records
+          </p>
+        ) : null}
+      </header>
       {itemsPage.ok ? (
         <ItemsTable {...itemsPage.data} />
       ) : (
