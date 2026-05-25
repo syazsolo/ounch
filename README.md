@@ -1,49 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ounch Items
 
-## Getting Started
+Interview test app built with Next.js, MySQL, Tailwind CSS, and NextUI/HeroUI.
 
-Create a local environment file with your MySQL connection string:
+The app server-renders item data from a MySQL `items` table and includes basic error handling plus pagination.
+
+## Setup
+
+Install dependencies:
 
 ```bash
-cp .env.local.example .env.local
+npm install
 ```
 
-Update `DATABASE_URL` so it points to your `sample_db` database, then create the table and seed sample rows with Drizzle:
+Create `.env.local`:
+
+```powershell
+Copy-Item .env.local.example .env.local
+```
+
+Set your database URL:
+
+```env
+DATABASE_URL="mysql://root:password@localhost:3306/sample_db"
+```
+
+Create the database:
+
+```sql
+CREATE DATABASE IF NOT EXISTS sample_db;
+```
+
+Create and seed the table:
 
 ```bash
 npm run db:push
 npm run db:seed
 ```
 
-First, run the development server:
+Run the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - start development server
+- `npm run build` - build for production
+- `npm run start` - run production build
+- `npm run lint` - run ESLint
+- `npm run db:push` - create/update database table
+- `npm run db:seed` - insert sample items
 
-## Learn More
+## Database
 
-To learn more about Next.js, take a look at the following resources:
+The app expects:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```sql
+CREATE TABLE items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL
+);
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Main files:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/app/page.tsx` - server-rendered items page
+- `src/db/schema.ts` - database schema
+- `scripts/seed-items.ts` - sample data
