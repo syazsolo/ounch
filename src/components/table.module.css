@@ -1,4 +1,4 @@
-@media (max-width: 639.98px) {
+@media (max-width: 767.98px) {
   .mobileBodyScroll {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);

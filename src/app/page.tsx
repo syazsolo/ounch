@@ -39,7 +39,7 @@ export default async function Home({
 
   if (!itemsPage.ok) {
     return (
-      <main className="min-h-dvh p-4 sm:p-6">
+      <main className="min-h-dvh p-4 md:p-6">
         <PageHeader />
         <ErrorState message={itemsPage.error} />
       </main>
@@ -49,9 +49,9 @@ export default async function Home({
   const { data } = itemsPage;
 
   return (
-    <main className="flex h-dvh flex-col overflow-hidden p-4 sm:block sm:h-auto sm:min-h-dvh sm:overflow-visible sm:p-6">
+    <main className="flex h-dvh flex-col overflow-hidden p-4 md:block md:h-auto md:min-h-dvh md:overflow-visible md:p-6">
       <PageHeader totalItems={data.totalItems} />
-      <ItemsTable {...data} className="min-h-0 flex-1 sm:flex-none" />
+      <ItemsTable {...data} className="min-h-0 flex-1 md:flex-none" />
     </main>
   );
 }

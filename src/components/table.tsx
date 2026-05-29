@@ -51,23 +51,28 @@ export function DataTable({
     <div
       className={cn(
         "mx-auto w-full max-w-6xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm",
-        "flex min-h-0 flex-col sm:block",
+        "flex min-h-0 flex-col md:block",
         className,
       )}
+      data-testid="data-table"
     >
       <Table
-        className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] sm:block sm:flex-none"
+        className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] md:block md:flex-none"
         variant="secondary"
       >
-        <Table.ScrollContainer className="min-h-0 overflow-x-auto overflow-y-hidden sm:overflow-y-visible">
+        <Table.ScrollContainer
+          className="min-h-0 overflow-x-auto overflow-y-hidden md:overflow-y-visible"
+          data-testid="data-table-scroll-container"
+        >
           <Table.Content
             aria-label={ariaLabel}
             className={cn(
               "min-w-170 table-fixed",
               styles.mobileBodyScroll,
-              "h-full sm:h-auto",
+              "h-full md:h-auto",
               contentClassName,
             )}
+            data-testid="data-table-content"
           >
             <Table.Header>
               {columns.map((column, index) => (
@@ -84,7 +89,7 @@ export function DataTable({
                 </Table.Column>
               ))}
             </Table.Header>
-            <Table.Body>
+            <Table.Body data-testid="data-table-body">
               {isEmpty ? (
                 <Table.Row id="empty">
                   <Table.Cell colSpan={columns.length}>
@@ -106,7 +111,10 @@ export function DataTable({
             </Table.Body>
           </Table.Content>
         </Table.ScrollContainer>
-        <Table.Footer className="border-t border-slate-200 p-3 sm:p-4">
+        <Table.Footer
+          className="border-t border-slate-200 p-2.5 md:p-4"
+          data-testid="data-table-footer"
+        >
           <DataTablePagination {...pagination} />
         </Table.Footer>
       </Table>
@@ -142,28 +150,23 @@ function DataTablePagination({
   };
 
   return (
-    <div className="flex flex-col gap-2 sm:gap-3">
-      <p className="text-sm text-slate-500">
+    <div className="md:flex md:items-center md:justify-between md:gap-4">
+      <p className="hidden text-sm text-slate-500 md:block">
         Showing {firstItem}-{lastItem} of {totalItems}
       </p>
       <nav
         aria-label="Table pagination"
-        className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        className="flex items-center justify-center gap-2"
       >
-        <p className="text-sm text-slate-500">
-          Page{" "}
-          <span className="font-medium text-slate-700">{currentPage}</span> of{" "}
-          <span className="font-medium text-slate-700">{pageCount}</span>
-        </p>
         <MobilePagination
-          className="sm:hidden"
+          className="md:hidden"
           currentPage={currentPage}
           nextLink={nextLink}
           pageCount={pageCount}
           previousLink={previousLink}
         />
         <DesktopPagination
-          className="hidden sm:flex"
+          className="hidden md:flex"
           currentPage={currentPage}
           getPageHref={getPageHref}
           nextLink={nextLink}
@@ -199,17 +202,19 @@ function MobilePagination({
   return (
     <div
       className={cn(
-        "grid grid-cols-[1fr_auto_1fr] items-center gap-2",
+        "flex items-center gap-2",
         className,
       )}
     >
-      <PaginationLink className="w-full" {...previousLink} />
+      <PaginationLink {...previousLink} />
       <span className="inline-flex h-9 min-w-16 items-center justify-center rounded-md bg-teal-600 px-3 text-sm font-semibold text-white shadow-sm shadow-teal-900/10">
-        {currentPage}
+        <span className="mr-1 font-medium text-teal-50">Page</span>{" "}
+        {currentPage}{" "}
         <span className="mx-1 text-teal-100">/</span>
+        {" "}
         {pageCount}
       </span>
-      <PaginationLink className="w-full" {...nextLink} />
+      <PaginationLink {...nextLink} />
     </div>
   );
 }
