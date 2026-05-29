@@ -49,9 +49,9 @@ export default async function Home({
   const { data } = itemsPage;
 
   return (
-    <main className="min-h-dvh p-4 sm:p-6">
+    <main className="flex h-dvh flex-col overflow-hidden p-4 sm:block sm:h-auto sm:min-h-dvh sm:overflow-visible sm:p-6">
       <PageHeader totalItems={data.totalItems} />
-      <ItemsTable {...data} />
+      <ItemsTable {...data} className="min-h-0 flex-1 sm:flex-none" />
     </main>
   );
 }

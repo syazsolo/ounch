@@ -4,6 +4,7 @@ import type { Item } from "@/db/schema";
 import { getPageHref } from "@/lib/pagination";
 
 type ItemsTableProps = {
+  className?: string;
   currentPage: number;
   items: Item[];
   pageCount: number;
@@ -12,6 +13,7 @@ type ItemsTableProps = {
 };
 
 export function ItemsTable({
+  className,
   currentPage,
   items,
   pageCount,
@@ -21,6 +23,7 @@ export function ItemsTable({
   return (
     <DataTable
       aria-label="Seeded inventory items"
+      className={className}
       columns={[
         {
           id: "id",
@@ -53,10 +56,10 @@ export function ItemsTable({
     >
       {items.map((item) => (
         <Table.Row id={item.id} key={item.id}>
-          <Table.Cell>
+          <Table.Cell className="w-1/10">
             <span className="font-mono text-sm text-slate-500">#{item.id}</span>
           </Table.Cell>
-          <Table.Cell>
+          <Table.Cell className="w-1/4">
             <span className="font-medium text-slate-950">{item.name}</span>
           </Table.Cell>
           <Table.Cell>

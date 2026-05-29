@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { getPageRange, getVisiblePages } from "@/lib/pagination";
+import styles from "./table.module.css";
 
 export type DataTableColumn = {
   id: string;
@@ -50,14 +51,23 @@ export function DataTable({
     <div
       className={cn(
         "mx-auto w-full max-w-6xl overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm",
+        "flex min-h-0 flex-col sm:block",
         className,
       )}
     >
-      <Table variant="secondary">
-        <Table.ScrollContainer>
+      <Table
+        className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] sm:block sm:flex-none"
+        variant="secondary"
+      >
+        <Table.ScrollContainer className="min-h-0 overflow-x-auto overflow-y-hidden sm:overflow-y-visible">
           <Table.Content
             aria-label={ariaLabel}
-            className={cn("min-w-170 table-fixed", contentClassName)}
+            className={cn(
+              "min-w-170 table-fixed",
+              styles.mobileBodyScroll,
+              "h-full sm:h-auto",
+              contentClassName,
+            )}
           >
             <Table.Header>
               {columns.map((column, index) => (
