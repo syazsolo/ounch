@@ -6,9 +6,11 @@ The application server-renders rows from a MySQL `items` table, handles database
 
 ## Screenshots
 
-![Desktop items table](docs/desktop-page-1.png)
+![Desktop default table](docs/screenshots/desktop-default.png)
 
-![Mobile pagination](docs/mobile-pagination.png)
+![Mobile compact pagination](docs/screenshots/mobile-pagination-compact.png)
+
+Additional responsive states are available in [`docs/screenshots`](docs/screenshots).
 
 ## Tech Stack
 
@@ -85,6 +87,8 @@ The seed script fills the table up to 250 demo rows. Pagination displays 10 item
 - `npm run build` - build for production
 - `npm run start` - run the production build
 - `npm run lint` - run ESLint
+- `npm run test:e2e` - run Playwright responsive table tests
+- `npm run docs:screenshots` - refresh screenshots in `docs/screenshots`
 - `npm run db:push` - create or update the database table from the Drizzle schema
 - `npm run db:seed` - insert sample item data up to 250 rows
 - `npm run db:fresh` - drop existing tables, push the schema, and seed fresh data

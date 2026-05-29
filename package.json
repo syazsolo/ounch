@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test:e2e": "playwright test",
+    "docs:screenshots": "tsx scripts/capture-doc-screenshots.ts",
     "db:fresh": "tsx scripts/drop-tables.ts && npm run db:push && npm run db:seed",
     "db:push": "drizzle-kit push",
     "db:seed": "tsx scripts/seed-items.ts",
