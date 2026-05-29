@@ -14,6 +14,21 @@ function ErrorState({ message }: { message: string }) {
   );
 }
 
+function PageHeader({ totalItems }: { totalItems?: number }) {
+  return (
+    <header className="mx-auto mb-4 flex w-full max-w-6xl items-end justify-between gap-3">
+      <h1 className="text-2xl font-semibold text-slate-950">
+        Ounch Assessment
+      </h1>
+      {totalItems === undefined ? null : (
+        <p className="text-sm text-slate-500">
+          {totalItems.toLocaleString()} records
+        </p>
+      )}
+    </header>
+  );
+}
+
 export default async function Home({
   searchParams,
 }: {
@@ -22,21 +37,21 @@ export default async function Home({
   const page = parsePage((await searchParams).page);
   const itemsPage = await listItems(page);
 
+  if (!itemsPage.ok) {
+    return (
+      <main className="min-h-dvh p-4 sm:p-6">
+        <PageHeader />
+        <ErrorState message={itemsPage.error} />
+      </main>
+    );
+  }
+
+  const { data } = itemsPage;
+
   return (
     <main className="min-h-dvh p-4 sm:p-6">
-      <header className="mx-auto mb-4 flex w-full max-w-6xl items-end justify-between gap-3">
-        <h1 className="text-2xl font-semibold text-slate-950">Ounch Assessment</h1>
-        {itemsPage.ok ? (
-          <p className="text-sm text-slate-500">
-            {itemsPage.data.totalItems.toLocaleString()} records
-          </p>
-        ) : null}
-      </header>
-      {itemsPage.ok ? (
-        <ItemsTable {...itemsPage.data} />
-      ) : (
-        <ErrorState message={itemsPage.error} />
-      )}
+      <PageHeader totalItems={data.totalItems} />
+      <ItemsTable {...data} />
     </main>
   );
 }
