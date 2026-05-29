@@ -97,3 +97,13 @@ The seed script fills the table up to 250 demo rows. Pagination displays 10 item
 - `src/components/table.tsx` - reusable table and pagination UI
 - `src/db/schema.ts` - Drizzle schema for the `items` table
 - `scripts/seed-items.ts` - sample data seeding script
+
+## Interview Note
+
+I wanted to add a short note because my perspective on ChatGPT 5.5 has changed since the interview. During the interview, I mentioned that I shape my programming opinions by listening to reputable senior engineers and weighing their reasoning against my own experience.
+
+One example is Theo, an ex-Twitch engineer. I said in the interview that I was not very impressed with ChatGPT 5.5 and preferred using Claude Code, though I could not always rely on it because of quota limits. After watching Theo's perspective, I felt I should give ChatGPT 5.5 a fairer try, because I consider his judgment credible.
+
+The video link below starts at the exact moment where Theo explains why.
+
+[![Theo on coding with AI](https://img.youtube.com/vi/xJaMTo2YgO8/hqdefault.jpg)](https://youtu.be/xJaMTo2YgO8?si=9VWIepJPP-KrFSDq&t=235)
